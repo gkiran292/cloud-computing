@@ -1,2 +1,2 @@
 # cloud-computing
-Cloud Computing
+Map Reduce in GCP cloud. This framework extensively uses gRPC
