@@ -139,10 +139,13 @@ public class Application {
 
         for (String fN : fileNames) {
             futures.add(executorService.submit(() -> uploadFilesToBucket(fN)));
+//            names.add(uploadFilesToBucket(fN));
         }
 
         for (Future<String> future : futures) {
-            names.add(future.get());
+            if (future.get() != null) {
+                names.add(future.get());
+            }
         }
 
         return StringUtils.join(names, ",");
@@ -150,14 +153,14 @@ public class Application {
 
     private static String uploadFilesToBucket(String fileName) {
 
-        String[] split = fileName.split("//");
-        String name = split[split.length-1];
+        String[] arr = fileName.split("/");
+        String name = arr[arr.length-1];
 
         Storage storage = StorageOptions.getDefaultInstance().getService();
-        BlobId blobId = BlobId.of(Constants.PROJECT_ID, split[split.length-1]);
+        BlobId blobId = BlobId.of(Constants.PROJECT_ID, name);
         Blob blob = storage.get(blobId);
 
-        if (blob.exists()) {
+        if (blob != null && blob.exists()) {
             return name;
         }
 
