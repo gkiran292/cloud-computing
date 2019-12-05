@@ -14,11 +14,11 @@ component=$(curl http://metadata.google.internal/computeMetadata/v1/instance/att
 cd ~/
 rm -rf cloud-computing
 git clone https://github.com/gkiran292/cloud-computing.git
-mkdir -p $nfs_dir
-mount $nfs_server $nfs_dir
-chmod go+rw $nfs_dir
+sudo mkdir -p $nfs_dir
+sudo mount $nfs_server $nfs_dir
+sudo chmod go+rw $nfs_dir
 cd ~/cloud-computing/$component
 mvn clean compile assembly:single
 
-java -jar target/$component-1.0-SNAPSHOT-jar-with-dependencies.jar -p "$port" -d "file:///$nfs_dir/$filename"
+sudo java -jar target/$component-1.0-SNAPSHOT-jar-with-dependencies.jar -p "$port" -d "file:///$nfs_dir/$filename"
 # execute task
