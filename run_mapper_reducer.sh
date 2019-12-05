@@ -13,7 +13,7 @@ do
 done
 
 cd /usr/app/cloud-computing/$component
-mvn clean compile:assembly single
+mvn clean compile assembly:single
 
 # execute task
 java -jar target/$component-1.0-SNAPSHOT-jar-with-dependencies.jar -k "$kv_store" -m "$master" -u "$uuid" > logfile.log
