@@ -21,7 +21,7 @@ public class KeyValueStoreServer {
     private static UniqueLinkedBlockingQueue<String> blockingQueue = new UniqueLinkedBlockingQueue<>();
     private static ConcurrentMap<String, String> concurrentMap = new ConcurrentHashMap<>();
 
-    public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         String filePath = null;
         int port = 0;
@@ -56,9 +56,9 @@ public class KeyValueStoreServer {
 
     }
 
-    private static void readAndWriteFromFile(String filePath) throws IOException, URISyntaxException {
+    private static void readAndWriteFromFile(String filePath) throws IOException {
 
-        File file = new File(new URI(filePath));
+        File file = new File(filePath);
         if (!file.exists()) {
             if (!file.createNewFile()) {
                 LOGGER.error("Couldn't create a new file {}", filePath);
