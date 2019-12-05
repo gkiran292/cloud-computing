@@ -12,15 +12,15 @@ filename=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attr
 component=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/component -H "Metadata-Flavor: Google")
 
 sudo mkdir /usr/app
-sudo chmod go+rw /usr/app
+sudo chmod 777 /usr/app
 cd /usr/app
 rm -rf cloud-computing
 git clone https://github.com/gkiran292/cloud-computing.git
 sudo mkdir -p $nfs_dir
 sudo mount $nfs_server $nfs_dir
-sudo chmod go+rw $nfs_dir
+sudo chmod 777 $nfs_dir
 cd /usr/app/cloud-computing/$component
 mvn clean compile assembly:single
 
-nohup java -jar /usr/app/cloud-computing/$component/target/$component-1.0-SNAPSHOT-jar-with-dependencies.jar -p "$port" -d "$nfs_dir/$filename" &
+sudo java -jar /usr/app/cloud-computing/$component/target/$component-1.0-SNAPSHOT-jar-with-dependencies.jar -p "$port" -d "$nfs_dir/$filename" > log.txt
 # execute task
