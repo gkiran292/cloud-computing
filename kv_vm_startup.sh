@@ -22,5 +22,5 @@ sudo chmod go+rw $nfs_dir
 cd /usr/app/cloud-computing/$component
 mvn clean compile assembly:single
 
-nohup java -jar /usr/app/cloud-computing/$component/target/$component-1.0-SNAPSHOT-jar-with-dependencies.jar -p "$port" -d "file://$nfs_dir/$filename" &
+nohup java -jar /usr/app/cloud-computing/$component/target/$component-1.0-SNAPSHOT-jar-with-dependencies.jar -p "$port" -d "$nfs_dir/$filename" &
 # execute task
