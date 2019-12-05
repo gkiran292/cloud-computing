@@ -11,14 +11,16 @@ port=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attribut
 filename=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/filename -H "Metadata-Flavor: Google")
 component=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/component -H "Metadata-Flavor: Google")
 
-cd $HOME
+sudo mkdir /usr/app
+sudo chmod go+rw /usr/app
+cd /usr/app
 rm -rf cloud-computing
 git clone https://github.com/gkiran292/cloud-computing.git
 sudo mkdir -p $nfs_dir
 sudo mount $nfs_server $nfs_dir
 sudo chmod go+rw $nfs_dir
-cd $HOME/cloud-computing/$component
+cd /usr/app/cloud-computing/$component
 mvn clean compile assembly:single
 
-java -jar $HOME/cloud-computing/$component/target/$component-1.0-SNAPSHOT-jar-with-dependencies.jar -p "$port" -d "file:///$nfs_dir/$filename"
+java -jar /usr/app/cloud-computing/$component/target/$component-1.0-SNAPSHOT-jar-with-dependencies.jar -p "$port" -d "file:///$nfs_dir/$filename"
 # execute task
