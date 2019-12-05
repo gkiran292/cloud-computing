@@ -3,6 +3,7 @@ package org.iu.engrcloudcomputing.memcached.keyvaluestore.server;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import org.iu.engrcloudcomputing.memcached.keyvaluestore.ds.UniqueLinkedBlockingQueue;
+import org.iu.engrcloudcomputing.memcached.keyvaluestore.helper.CommandOptions;
 import org.iu.engrcloudcomputing.memcached.keyvaluestore.impl.KeyValueStoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +23,30 @@ public class KeyValueStoreServer {
 
     public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException {
 
+        String filePath = null;
+        int port = 0;
+
+        //Get Command line values
+        CommandOptions cmd = new CommandOptions(args);
+
+        //KV store information
+        if (cmd.hasOption("-d")) {
+            filePath = cmd.valueOf("-d");
+            LOGGER.info("FilePath: {}", filePath);
+        }
+
+        //nfs Server ip and volume of the format <ip-address>:/<Volume> store information
+        if (cmd.hasOption("-p")) {
+            String p = cmd.valueOf("-p");
+            if (p == null || p.length() == 0) {
+                p = "9000";
+            }
+            port = Integer.parseInt(p);
+            LOGGER.info("Port: {}", port);
+        }
+
         //init
-        readAndWriteFromFile(args[0]);
-        int port = Integer.parseInt(args[1]);
+        readAndWriteFromFile(filePath);
         Server server = ServerBuilder.forPort(port)
                 .addService(new KeyValueStoreService(concurrentMap, blockingQueue, args[0])).build();
         server.start();

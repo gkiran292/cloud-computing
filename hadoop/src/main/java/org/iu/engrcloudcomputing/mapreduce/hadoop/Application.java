@@ -9,7 +9,6 @@ import org.iu.engrcloudcomputing.mapreduce.hadoop.manager.impl.HadoopManagerImpl
 import org.iu.engrcloudcomputing.mapreduce.hadoop.manager.spi.HadoopManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zeroturnaround.exec.ProcessResult;
 
 import java.io.*;
 import java.lang.invoke.MethodHandles;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 public class Application {
 
@@ -28,7 +26,7 @@ public class Application {
 
     private static final String INITIAL_KEY = "master";
 
-    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException, URISyntaxException, GeneralSecurityException {
+    public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException, GeneralSecurityException {
 
         String propFilePath;
         try {
