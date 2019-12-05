@@ -24,8 +24,6 @@ public class HadoopManagerImpl implements HadoopManager {
 
     private static final String STARTUP_SCRIPT_URL_KEY = "startup-script-url";
     private static final String STARTUP_SCRIPT_URL_VALUE = "gs://" + Constants.PROJECT_ID + "/vm_startup.sh";
-    private static final String NFS_SERVER_KEY = "nfs-server";
-    private static final String NFS_DIR_KEY = "nfs-dir";
     private static final String COMPONENT_NAME_KEY = "component";
     private static final String KV_STORE_KEY = "kv-store";
     private static final String MASTER_DETAILS_KEY = "master";
@@ -34,13 +32,13 @@ public class HadoopManagerImpl implements HadoopManager {
     private static final String script = "run_master.sh";
 
     @Override
-    public String initiateCluster(String componentName, String nfsServerDetails, String workingFolder, int port) throws IOException, GeneralSecurityException {
+    public String initiateCluster(String componentName, int port) throws IOException, GeneralSecurityException {
 
         int status = -1;
         GoogleComputeOps gc = new GoogleComputeOps(componentName);
 
         while (status != 0) {
-            status = gc.startInstance(getMetaData(componentName, componentName, nfsServerDetails, workingFolder, port),
+            status = gc.startInstance(getMetaData(componentName, componentName, port),
                     false);
         }
 
@@ -93,14 +91,12 @@ public class HadoopManagerImpl implements HadoopManager {
         return true;
     }
 
-    private Metadata getMetaData(String uuid, String componentName, String nfsServerDetails, String workingFolder, int port) {
+    private Metadata getMetaData(String uuid, String componentName, int port) {
 
         Metadata metadata = new Metadata();
         List<Metadata.Items> itemsList = new ArrayList<>();
         itemsList.add(getItem(STARTUP_SCRIPT_URL_KEY, STARTUP_SCRIPT_URL_VALUE));
-        itemsList.add(getItem(NFS_SERVER_KEY, nfsServerDetails));
-        itemsList.add(getItem(NFS_DIR_KEY, workingFolder));
-        itemsList.add(getItem(KV_STORE_KEY, "."));
+        itemsList.add(getItem(KV_STORE_KEY, ".:"));
         itemsList.add(getItem(MASTER_DETAILS_KEY, ".:" + port));
         itemsList.add(getItem(UUID_KEY, uuid));
         itemsList.add(getItem(COMPONENT_NAME_KEY, componentName));

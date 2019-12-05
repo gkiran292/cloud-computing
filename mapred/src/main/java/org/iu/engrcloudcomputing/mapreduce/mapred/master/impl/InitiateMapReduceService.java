@@ -24,19 +24,14 @@ public class InitiateMapReduceService extends BeginMapReduceGrpc.BeginMapReduceI
     private ConcurrentMap<String, String> reducerConcurrentMap;
     private CountDownLatch mapReduceTaskLatch;
     private static final String MESSAGE = "Master is assigned to another cluster";
-    private String workingFolder;
-    private String nfsServerDetails;
     private ConcurrentMap<String, TaskInfo> taskInfoConcurrentMap;
 
     public InitiateMapReduceService(ConcurrentMap<String, String> mapperConcurrentMap,
                                     ConcurrentMap<String, String> reducerConcurrentMap, CountDownLatch mapReduceTaskLatch,
-                                    String workingFolder, String nfsServerDetails,
                                     ConcurrentMap<String, TaskInfo> taskInfoConcurrentMap) {
         this.mapperConcurrentMap = mapperConcurrentMap;
         this.reducerConcurrentMap = reducerConcurrentMap;
         this.mapReduceTaskLatch = mapReduceTaskLatch;
-        this.workingFolder = workingFolder;
-        this.nfsServerDetails = nfsServerDetails;
         this.taskInfoConcurrentMap = taskInfoConcurrentMap;
     }
 
@@ -65,7 +60,7 @@ public class InitiateMapReduceService extends BeginMapReduceGrpc.BeginMapReduceI
         String kvStoreDetails = kvStoreIpAddress + ":" + kvStorePort;
         String masterDetails = masterIpAddress + ":" + masterPort;
         MapReduceManager mapReduceManager = new MapReduceManager(kvStoreDetails, masterDetails, mappers, reducers,
-                mapperComponentName, reducerComponentName, initialKey, workingFolder, nfsServerDetails, mapperConcurrentMap,
+                mapperComponentName, reducerComponentName, initialKey, mapperConcurrentMap,
                 reducerConcurrentMap, taskInfoConcurrentMap);
 
         List<String> finalKeys;

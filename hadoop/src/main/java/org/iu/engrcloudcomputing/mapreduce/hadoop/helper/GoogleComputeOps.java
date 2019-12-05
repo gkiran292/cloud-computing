@@ -5,7 +5,6 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.services.compute.Compute;
 import com.google.api.services.compute.model.*;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,7 +104,7 @@ public class GoogleComputeOps {
     // [START list_instances]
     private boolean checkForInstance(Compute compute) throws IOException {
         InstanceList instanceList = listInstances(compute);
-        if (!ObjectUtils.anyNotNull(instanceList.getItems())) {
+        if (instanceList.getItems() == null || instanceList.getItems().size() < 1) {
             LOGGER.info("No instances found. Sign in to the Google Developers Console and create "
                     + "an instance at: https://console.developers.google.com/");
         }

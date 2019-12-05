@@ -1,6 +1,10 @@
 package org.iu.engrcloudcomputing.mapreduce.mapred.manager;
 
 import com.google.api.services.compute.model.Metadata;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.apache.commons.lang3.StringUtils;
@@ -11,12 +15,15 @@ import org.iu.engrcloudcomputing.mapreduce.mapred.helper.Constants;
 import org.iu.engrcloudcomputing.mapreduce.mapred.helper.GoogleComputeOps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zeroturnaround.exec.ProcessResult;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,8 +39,6 @@ public class MapReduceManager {
     private int reducers;
     private String mapperComponentName;
     private String reducerComponentName;
-    private String workingFolder;
-    private String nfsServerDetails;
     private String initialKey;
     private ConcurrentMap<String, String> mapperConcurrentMap;
     private ConcurrentMap<String, String> reducerConcurrentMap;
@@ -41,8 +46,6 @@ public class MapReduceManager {
     private ExecutorService executorService = Executors.newFixedThreadPool(50);
     private static final String STARTUP_SCRIPT_URL_KEY = "startup-script-url";
     private static final String STARTUP_SCRIPT_URL_VALUE = "gs://" + Constants.PROJECT_ID + "/vm_startup.sh";
-    private static final String NFS_SERVER_KEY = "nfs-server";
-    private static final String NFS_DIR_KEY = "nfs-dir";
     private static final String COMPONENT_NAME_KEY = "component";
     private static final String KV_STORE_KEY = "kv-store";
     private static final String MASTER_DETAILS_KEY = "master";
@@ -53,17 +56,14 @@ public class MapReduceManager {
     private static final String REDUCER_PREFIX = "R";
 
     public MapReduceManager(String kvStoreDetails, String masterDetails, int mappers, int reducers, String mapperComponentName,
-                            String reducerComponentName, String workingFolder, String nfsServerDetails, String initialKey,
-                            ConcurrentMap<String, String> mapperConcurrentMap, ConcurrentMap<String, String> reducerConcurrentMap,
-                            ConcurrentMap<String, TaskInfo> taskInfoConcurrentMap) {
+                            String reducerComponentName, String initialKey, ConcurrentMap<String, String> mapperConcurrentMap,
+                            ConcurrentMap<String, String> reducerConcurrentMap, ConcurrentMap<String, TaskInfo> taskInfoConcurrentMap) {
         this.kvStoreDetails = kvStoreDetails;
         this.masterDetails = masterDetails;
         this.mappers = mappers;
         this.reducers = reducers;
         this.mapperComponentName = mapperComponentName;
         this.reducerComponentName = reducerComponentName;
-        this.workingFolder = workingFolder;
-        this.nfsServerDetails = nfsServerDetails;
         this.initialKey = initialKey;
         this.mapperConcurrentMap = mapperConcurrentMap;
         this.reducerConcurrentMap = reducerConcurrentMap;
@@ -84,7 +84,7 @@ public class MapReduceManager {
 
         //Logic for splitting input
         List<String> inputKeys = splitInputKeys(totalKeys, mappers);
-        mapInputToComponents(MAPPER_PREFIX, mapperComponentName, inputKeys, taskInfoConcurrentMap);
+        mapInputToComponents(MAPPER_PREFIX, mapperComponentName, inputKeys, taskInfoConcurrentMap, blockingStub);
 
         //spawn and wait for mapper instances to be up (handles retry too)
         handleTasks(mapperComponentName);
@@ -92,7 +92,7 @@ public class MapReduceManager {
 
         //process the keys for reducers
         List<String> reducerKeyList = processKeysForReducers(mapperConcurrentMap, reducers);
-        mapInputToComponents(REDUCER_PREFIX, mapperComponentName, reducerKeyList, taskInfoConcurrentMap);
+        mapInputToComponents(REDUCER_PREFIX, mapperComponentName, reducerKeyList, taskInfoConcurrentMap, blockingStub);
         //spawn reducers
         handleTasks(reducerComponentName);
         cleanUpInstances();
@@ -127,17 +127,24 @@ public class MapReduceManager {
         return finalKeys;
     }
 
-    private void cleanUpInstances() {
+    private void cleanUpInstances() throws ExecutionException, InterruptedException {
 
+        List<Future<Integer>> futures = new ArrayList<>();
         for (Map.Entry<String, TaskInfo> entry : taskInfoConcurrentMap.entrySet()) {
             String key = entry.getKey();
-            executorService.submit(() -> new GoogleComputeOps(key).deleteInstance());
+            futures.add(executorService.submit(() -> new GoogleComputeOps(key).deleteInstance()));
         }
 
+        for (Future<Integer> future : futures) {
+            Integer status = future.get();
+            if (status != 0) {
+                LOGGER.warn("Failed to clean up some of the instances");
+            }
+        }
         taskInfoConcurrentMap.clear();
     }
 
-    private void handleTasks(String componentName) throws URISyntaxException, ExecutionException, InterruptedException, IOException {
+    private void handleTasks(String componentName) throws ExecutionException, InterruptedException {
         boolean isRunning = taskInfoConcurrentMap.entrySet().stream().allMatch(entry -> entry.getValue().getIsTaskFinished());
         while (!isRunning) {
             waitAndRetryTasks(taskInfoConcurrentMap, componentName);
@@ -161,17 +168,19 @@ public class MapReduceManager {
     }
 
     private void mapInputToComponents(String prefix, String componentName, List<String> inputKeys,
-                                      ConcurrentMap<String, TaskInfo> taskInfoConcurrentMap) throws IOException, URISyntaxException {
+                                      ConcurrentMap<String, TaskInfo> taskInfoConcurrentMap,
+                                      KeyValueStoreGrpc.KeyValueStoreBlockingStub blockingStub) {
 
         int i = 0;
         for (String input : inputKeys) {
             final String uuid = prefix + UUID.randomUUID().toString().replace("-", "") + (++i);
+            storeKeyValue(blockingStub, uuid, input);
             spawnTask(taskInfoConcurrentMap, uuid, input, componentName);
         }
     }
 
     private void waitAndRetryTasks(ConcurrentMap<String, TaskInfo> taskMap, String componentName)
-            throws IOException, URISyntaxException, ExecutionException, InterruptedException {
+            throws ExecutionException, InterruptedException {
 
         boolean hasAllComponentsNotFinished = true;
         spawnTaskProcesses(taskMap, componentName);
@@ -251,11 +260,8 @@ public class MapReduceManager {
                 .collect(Collectors.toList());
     }
 
-    private void spawnTask(ConcurrentMap<String, TaskInfo> map, String uuid, String inputKey,
-                           String componentName) throws IOException, URISyntaxException {
+    private void spawnTask(ConcurrentMap<String, TaskInfo> map, String uuid, String inputKey, String componentName) {
 
-        String filePath = uuid + ".txt";
-        persistInFile(inputKey, filePath);
         Future<Integer> future = (executorService.submit(() ->
                 new GoogleComputeOps(uuid).startInstance(getMetaData(uuid, componentName), true)));
 
@@ -263,8 +269,7 @@ public class MapReduceManager {
         LOGGER.info("TaskId: {}", uuid);
     }
 
-    private void spawnTaskProcesses(ConcurrentMap<String, TaskInfo> map, String componentName)
-            throws IOException, URISyntaxException {
+    private void spawnTaskProcesses(ConcurrentMap<String, TaskInfo> map, String componentName) {
 
         Set<String> list = map.keySet();
         for (String key : list) {
@@ -279,8 +284,6 @@ public class MapReduceManager {
         Metadata metadata = new Metadata();
         List<Metadata.Items> itemsList = new ArrayList<>();
         itemsList.add(getItem(STARTUP_SCRIPT_URL_KEY, STARTUP_SCRIPT_URL_VALUE));
-        itemsList.add(getItem(NFS_SERVER_KEY, nfsServerDetails));
-        itemsList.add(getItem(NFS_DIR_KEY, workingFolder));
         itemsList.add(getItem(KV_STORE_KEY, kvStoreDetails));
         itemsList.add(getItem(MASTER_DETAILS_KEY, masterDetails));
         itemsList.add(getItem(UUID_KEY, uuid));
@@ -322,6 +325,13 @@ public class MapReduceManager {
         List<String> totalKeyList = new ArrayList<>();
 
         for (String filePath : filePaths) {
+
+            Path destFilePath = Paths.get(filePath);
+            Storage storage = StorageOptions.getDefaultInstance().getService();
+
+            Blob blob = storage.get(BlobId.of(Constants.PROJECT_ID, filePath));
+            blob.downloadTo(destFilePath);
+
             File file = new File(filePath);
             if (!file.exists()) {
                 if (!file.createNewFile()) {
@@ -346,28 +356,5 @@ public class MapReduceManager {
         }
 
         return totalKeyList;
-    }
-
-    private void persistInFile(String input, String filePath) throws IOException, URISyntaxException {
-
-        String uri = "file://" + workingFolder + "/" + filePath;
-        File file = new File(new URI(uri));
-        if (file.exists()) {
-            return;
-        }
-
-        if (!file.createNewFile()) {
-            LOGGER.error("Couldn't create a new file {}", filePath);
-            throw new IOException("Couldn't create a new file " + filePath);
-        }
-
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), false));
-        try {
-            bw.write(input + "\n");
-        } catch (IOException e) {
-            LOGGER.error("Couldn't write to file {}", filePath);
-        }
-
-        bw.close();
     }
 }

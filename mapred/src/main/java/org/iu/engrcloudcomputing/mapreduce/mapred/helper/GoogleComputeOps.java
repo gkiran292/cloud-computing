@@ -105,7 +105,7 @@ public class GoogleComputeOps {
     // [START list_instances]
     private boolean checkForInstance(Compute compute) throws IOException {
         InstanceList instanceList = listInstances(compute);
-        if (!ObjectUtils.anyNotNull(instanceList.getItems())) {
+        if (instanceList.getItems() == null || instanceList.getItems().size() < 1) {
             LOGGER.info("No instances found. Sign in to the Google Developers Console and create "
                     + "an instance at: https://console.developers.google.com/");
         }

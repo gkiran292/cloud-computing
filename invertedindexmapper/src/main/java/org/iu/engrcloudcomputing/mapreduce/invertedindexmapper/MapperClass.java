@@ -36,7 +36,6 @@ public class MapperClass {
         String masterIpAddress = null;
         int masterPort = Integer.MIN_VALUE;
         String mapperId = null;
-        String mapperKeysFilePath = null;
 
 //Get Command line values
         CommandOptions cmd = new CommandOptions(args);
@@ -58,18 +57,13 @@ public class MapperClass {
             mapperId = cmd.valueOf("-u");
         }
 
-//Mapper file location
-        if (cmd.hasOption("-s")) {
-            mapperKeysFilePath = cmd.valueOf("-s") + "/" + mapperId + ".txt";
-        }
 
-        LOGGER.info("kvStoreIpAddress: {}, kvStorePort: {}, masterIpAddress: {}, masterPort: {}, mapperId: {}, " +
-                "mapperKeysFilePath: {}", kvStoreIpAddress, kvStorePort, masterIpAddress, masterPort, mapperId, mapperKeysFilePath);
-
-        String keysFromFile = readFromFileForKeys(mapperKeysFilePath);
+        LOGGER.info("kvStoreIpAddress: {}, kvStorePort: {}, masterIpAddress: {}, masterPort: {}, mapperId: {}, "
+                , kvStoreIpAddress, kvStorePort, masterIpAddress, masterPort, mapperId);
 
         KeyValueStoreGrpc.KeyValueStoreBlockingStub keyValueStoreBlockingStub = createKVStoreConnection(kvStoreIpAddress, kvStorePort);
-        List<String> mapperKeys = processInputArguments(/*MapperId*/mapperId, /*mapper keys*/keysFromFile, keyValueStoreBlockingStub);
+        String keysFromKVStore = readKeysFromKVStore(mapperId, keyValueStoreBlockingStub);
+        List<String> mapperKeys = processInputArguments(/*MapperId*/mapperId, /*mapper keys*/keysFromKVStore, keyValueStoreBlockingStub);
 
         MapperAckGrpc.MapperAckBlockingStub mapperAckBlockingStub = createMasterNodeConnection(masterIpAddress, masterPort);
 
@@ -82,22 +76,17 @@ public class MapperClass {
         }
     }
 
-    private static String readFromFileForKeys(String mapperKeysFilePath) throws IOException, URISyntaxException {
+    private static String readKeysFromKVStore(String uuid, KeyValueStoreGrpc.KeyValueStoreBlockingStub blockingStub)
+            throws IOException {
 
-        File file = new File(new URI(mapperKeysFilePath));
-        if (!file.exists()) {
-            if (!file.createNewFile()) {
-                LOGGER.error("Couldn't create a new file {}", mapperKeysFilePath);
-                throw new IOException("Couldn't create a new file " + mapperKeysFilePath);
-            }
+        Keyvalue.KeyValuePair keyValuePair = blockingStub.get(Keyvalue.Key.newBuilder().setKey(uuid).build());
+
+        if (keyValuePair.getResponseCode() != 200) {
+            LOGGER.error("Failed to fetch the value for the mapper, uuid: {}", uuid);
+            throw new IOException("Failed to fetch the value for the uuid " + uuid);
         }
 
-        BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));
-
-        String line = br.readLine();
-        br.close();
-
-        return line;
+        return keyValuePair.getValue();
     }
 
     private static List<String> processInputArguments(String mapperId, String inputArgs,

@@ -11,13 +11,8 @@ import org.iu.engrcloudcomputing.mapreduce.invertedindexreducer.helper.CommandOp
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,14 +23,13 @@ public class ReducerClass {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
+    public static void main(String[] args) throws IOException {
 
         String kvStoreIpAddress = null;
         int kvStorePort = Integer.MIN_VALUE;
         String masterIpAddress = null;
         int masterPort = Integer.MIN_VALUE;
         String reducerId = null;
-        String reducerKeysFilePath = null;
 
         //Get Command line values
         CommandOptions cmd = new CommandOptions(args);
@@ -57,18 +51,12 @@ public class ReducerClass {
             reducerId = cmd.valueOf("-u");
         }
 
-        //Mapper file location
-        if (cmd.hasOption("-s")) {
-            reducerKeysFilePath = cmd.valueOf("-s") + "/" + reducerId + ".txt";
-        }
-
-        LOGGER.info("kvStoreIpAddress: {}, kvStorePort: {}, masterIpAddress: {}, masterPort: {}, reducerId: {}, " +
-                "reducerKeysFilePath: {}", kvStoreIpAddress, kvStorePort, masterIpAddress, masterPort, reducerId, reducerKeysFilePath);
-
-        String keysFromFile = readFromFileForKeys(reducerKeysFilePath);
+        LOGGER.info("kvStoreIpAddress: {}, kvStorePort: {}, masterIpAddress: {}, masterPort: {}, reducerId: {}, ", kvStoreIpAddress, kvStorePort, masterIpAddress, masterPort, reducerId);
 
         KeyValueStoreGrpc.KeyValueStoreBlockingStub keyValueStoreBlockingStub = createKVStoreConnection(kvStoreIpAddress, kvStorePort);
-        List<String> mapperKeys = processInputArguments(/*ReducerId*/reducerId, /*reducer keys*/keysFromFile, keyValueStoreBlockingStub);
+        String keysFromKVStore = readKeysFromKVStore(reducerId, keyValueStoreBlockingStub);
+
+        List<String> mapperKeys = processInputArguments(/*ReducerId*/reducerId, /*reducer keys*/keysFromKVStore, keyValueStoreBlockingStub);
 
         ReducerAckGrpc.ReducerAckBlockingStub reducerAckBlockingStub = createMasterNodeConnection(masterIpAddress, masterPort);
 
@@ -81,22 +69,17 @@ public class ReducerClass {
         }
     }
 
-    private static String readFromFileForKeys(String mapperKeysFilePath) throws IOException, URISyntaxException {
+    private static String readKeysFromKVStore(String uuid, KeyValueStoreGrpc.KeyValueStoreBlockingStub blockingStub)
+            throws IOException {
 
-        File file = new File(new URI(mapperKeysFilePath));
-        if (!file.exists()) {
-            if (!file.createNewFile()) {
-                LOGGER.error("Couldn't create a new file {}", mapperKeysFilePath);
-                throw new IOException("Couldn't create a new file " + mapperKeysFilePath);
-            }
+        Keyvalue.KeyValuePair keyValuePair = blockingStub.get(Keyvalue.Key.newBuilder().setKey(uuid).build());
+
+        if (keyValuePair.getResponseCode() != 200) {
+            LOGGER.error("Failed to fetch the value for the mapper, uuid: {}", uuid);
+            throw new IOException("Failed to fetch the value for the uuid " + uuid);
         }
 
-        BufferedReader br = new BufferedReader(new FileReader(file.getAbsoluteFile()));
-
-        String line = br.readLine();
-        br.close();
-
-        return line;
+        return keyValuePair.getValue();
     }
 
     private static List<String> processInputArguments(String reducerId, String inputArgs,

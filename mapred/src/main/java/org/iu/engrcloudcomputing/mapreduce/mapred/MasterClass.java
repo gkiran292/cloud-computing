@@ -30,8 +30,6 @@ public class MasterClass {
         CountDownLatch mapReduceTaskLatch = new CountDownLatch(1);
         CountDownLatch serverStatusLatch = new CountDownLatch(1);
         String masterDetails = null;
-        String nfsServerDetails = null;
-        String workingFolder = null;
 
         //Get Command line values
         CommandOptions cmd = new CommandOptions(args);
@@ -41,15 +39,6 @@ public class MasterClass {
             masterDetails = cmd.valueOf("-m");
         }
 
-        //nfs Server ip and volume of the format <ip-address>:/<Volume> store information
-        if (cmd.hasOption("-n")) {
-            nfsServerDetails = cmd.valueOf("-n");
-        }
-
-        //Working Folder information
-        if (cmd.hasOption("-s")) {
-            workingFolder = cmd.valueOf("-s");
-        }
         //Register mapperAckService and reducerAckService
 
         LOGGER.info("Master is initializing...");
@@ -61,7 +50,7 @@ public class MasterClass {
                 .addService(new MapperAckService(mapperConcurrentMap, taskInfoConcurrentMap))
                 .addService(new ReducerAckService(reducerConcurrentMap, taskInfoConcurrentMap))
                 .addService(new InitiateMapReduceService(mapperConcurrentMap, reducerConcurrentMap, mapReduceTaskLatch,
-                        workingFolder, nfsServerDetails, taskInfoConcurrentMap))
+                        taskInfoConcurrentMap))
                 .addService(new ShutDownMasterService(serverStatusLatch)).build();
         server.start();
         LOGGER.info("Master is initialized");

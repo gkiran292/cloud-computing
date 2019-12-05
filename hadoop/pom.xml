@@ -70,6 +70,22 @@
             <artifactId>google-api-services-compute</artifactId>
             <version>v1-rev214-1.25.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-storage</artifactId>
+            <version>1.31.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.opencensus</groupId>
+                    <artifactId>opencensus-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
     </dependencies>
 
     <properties>
