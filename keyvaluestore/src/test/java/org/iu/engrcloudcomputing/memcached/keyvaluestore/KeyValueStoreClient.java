@@ -22,7 +22,8 @@ public class KeyValueStoreClient {
 ////            threadPool.execute(new ParallelClient(key, value));
 ////        }
 //        threadPool.shutdown();
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("34.74.108.131", 9000).usePlaintext().build();
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9000).usePlaintext().build();
+        //ManagedChannel channel = ManagedChannelBuilder.forAddress("34.74.108.131", 9000).usePlaintext().build();
         KeyValueStoreGrpc.KeyValueStoreBlockingStub keyValueStoreBlockingStub = KeyValueStoreGrpc.newBlockingStub(channel);
 
         Keyvalue.Code responseCode = keyValueStoreBlockingStub.set(Keyvalue.KeyValuePair.newBuilder()

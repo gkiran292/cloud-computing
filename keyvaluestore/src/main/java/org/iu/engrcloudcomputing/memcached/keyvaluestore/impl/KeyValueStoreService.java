@@ -42,7 +42,7 @@ public class KeyValueStoreService extends KeyValueStoreGrpc.KeyValueStoreImplBas
         LOGGER.debug("Key: {}, Value: {}", key, value);
         try {
             persistInFile(filePath);
-        } catch (IOException | InterruptedException | URISyntaxException e) {
+        } catch (IOException | InterruptedException  e) {
             LOGGER.error(e.toString());
             responseObserver.onNext(Keyvalue.Code.newBuilder().setResponseCode(500).build());
             responseObserver.onCompleted();
@@ -52,8 +52,8 @@ public class KeyValueStoreService extends KeyValueStoreGrpc.KeyValueStoreImplBas
         responseObserver.onCompleted();
     }
 
-    private void persistInFile(String filePath) throws IOException, InterruptedException, URISyntaxException {
-        File file = new File(new URI(filePath));
+    private void persistInFile(String filePath) throws IOException, InterruptedException {
+        File file = new File(filePath);
         if (!file.exists()) {
             if (!file.createNewFile()) {
                 LOGGER.error("Couldn't create a new file: {}", filePath);
