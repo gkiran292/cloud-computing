@@ -16,21 +16,21 @@ public class KeyValueStoreClient {
 
     public static void main(String[] args) throws IOException {
 
-        String bucketName = "gopikiran-talangalashama";
-
-        String srcFilename = "kv_vm_startup.sh";
-
-        Path destFilePath = Paths.get("kv_vm_startup.txt");
-        // Instantiate a Google Cloud Storage client
-        Storage storage = StorageOptions.getDefaultInstance().getService();
-
-// Get specific file from specified bucket
-        Blob blob = storage.get(BlobId.of(bucketName, srcFilename));
-
-        System.out.println(blob.exists());
+//        String bucketName = "gopikiran-talangalashama";
 //
-// Download file to specified path
-        blob.downloadTo(destFilePath);
+//        String srcFilename = "kv_vm_startup.sh";
+//
+//        Path destFilePath = Paths.get("kv_vm_startup.txt");
+//        // Instantiate a Google Cloud Storage client
+//        Storage storage = StorageOptions.getDefaultInstance().getService();
+//
+//// Get specific file from specified bucket
+//        Blob blob = storage.get(BlobId.of(bucketName, srcFilename));
+//
+//        System.out.println(blob.exists());
+////
+//// Download file to specified path
+//        blob.downloadTo(destFilePath);
 
 //        BlobId blobId = BlobId.of(bucketName, "pom.xml");
 //
@@ -51,14 +51,14 @@ public class KeyValueStoreClient {
 ////        }
 //        threadPool.shutdown();
 //        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9000).usePlaintext().build();
-//        ManagedChannel channel = ManagedChannelBuilder.forAddress("35.231.250.4", 9000).usePlaintext().build();
-//        KeyValueStoreGrpc.KeyValueStoreBlockingStub keyValueStoreBlockingStub = KeyValueStoreGrpc.newBlockingStub(channel);
-//
-////        Keyvalue.Code responseCode = keyValueStoreBlockingStub.set(Keyvalue.KeyValuePair.newBuilder()
-////                .setKey("master").setValue("value").build());
-////        System.out.println("Response Code: " + responseCode.getResponseCode());
-//
-//        Keyvalue.KeyValuePair keyValuePair = keyValueStoreBlockingStub.get(Keyvalue.Key.newBuilder().setKey("master").build());
-//        System.out.println("Key: " + keyValuePair.getKey() + " Value: " + keyValuePair.getValue());
+        ManagedChannel channel = ManagedChannelBuilder.forAddress("35.231.250.4", 9000).usePlaintext().build();
+        KeyValueStoreGrpc.KeyValueStoreBlockingStub keyValueStoreBlockingStub = KeyValueStoreGrpc.newBlockingStub(channel);
+
+        Keyvalue.Code responseCode = keyValueStoreBlockingStub.set(Keyvalue.KeyValuePair.newBuilder()
+                .setKey("master").setValue("value").build());
+        System.out.println("Response Code: " + responseCode.getResponseCode());
+
+        Keyvalue.KeyValuePair keyValuePair = keyValueStoreBlockingStub.get(Keyvalue.Key.newBuilder().setKey("master").build());
+        System.out.println("Key: " + keyValuePair.getKey() + " Value: " + keyValuePair.getValue());
     }
 }

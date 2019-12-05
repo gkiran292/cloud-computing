@@ -5,10 +5,12 @@ apt-get -y install default-jdk
 apt-get -y install maven
 apt-get -y install nfs-common
 
-while getopts "c:m:" opt
+while getopts "c:m:k:u:" opt
 do
    case "$opt" in
-      p ) component="$OPTARG" ;;
+      k ) kvstore="$OPTARG" ;;
+      u ) uuid="$OPTARG" ;;
+      c ) component="$OPTARG" ;;
       m ) master="$OPTARG" ;;
    esac
 done

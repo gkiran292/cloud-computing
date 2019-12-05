@@ -96,8 +96,8 @@ public class HadoopManagerImpl implements HadoopManager {
         Metadata metadata = new Metadata();
         List<Metadata.Items> itemsList = new ArrayList<>();
         itemsList.add(getItem(STARTUP_SCRIPT_URL_KEY, STARTUP_SCRIPT_URL_VALUE));
-        itemsList.add(getItem(KV_STORE_KEY, ".:"));
-        itemsList.add(getItem(MASTER_DETAILS_KEY, ".:" + port));
+        itemsList.add(getItem(KV_STORE_KEY, "1:1"));
+        itemsList.add(getItem(MASTER_DETAILS_KEY, "1:" + port));
         itemsList.add(getItem(UUID_KEY, uuid));
         itemsList.add(getItem(COMPONENT_NAME_KEY, componentName));
         itemsList.add(getItem(SCRIPT_KEY, script));

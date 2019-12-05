@@ -13,5 +13,5 @@ uuid=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attribut
 script=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/script -H "Metadata-Flavor: Google")
 
 # excute the run_script in background
-nohup sh /usr/app/cloud-computing/$script -c "$component" -k "$kv_store" -m "$master" -u "$uuid" &
+sh /usr/app/cloud-computing/$script -c "$component" -k "$kv_store" -m "$master" -u "$uuid"
 #Return
