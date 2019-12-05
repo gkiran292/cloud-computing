@@ -15,6 +15,7 @@ import java.io.*;
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -27,7 +28,7 @@ public class Application {
 
     private static final String INITIAL_KEY = "master";
 
-    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException, URISyntaxException {
+    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException, URISyntaxException, GeneralSecurityException {
 
         String propFilePath;
         try {
@@ -52,25 +53,22 @@ public class Application {
         int masterPort = Integer.parseInt(properties.getProperty("master.Port"));
         LOGGER.debug("Master masterPort: {}", masterPort);
 
-        String masterIpAddress = properties.getProperty("master.IpAddress");
-        LOGGER.debug("Master masterIpAddress: {}", masterIpAddress);
-
         int mappers = Integer.parseInt(properties.getProperty("mapper.Count"));
         LOGGER.debug("Number of mappers: {}", mappers);
         int reducers = Integer.parseInt(properties.getProperty("reducer.Count"));
         LOGGER.debug("Number of reducers: {},", reducers);
 
         // "/Users/gkiran/Documents/git-gkiran292/mapred/target/mapred-1.0-SNAPSHOT-jar-with-dependencies.jar"
-        String masterJarName = properties.getProperty("master.JarName");
-        LOGGER.debug("Master jar name: {}", masterJarName);
+        String masterComponent = properties.getProperty("master.Component");
+        LOGGER.debug("Master component name: {}", masterComponent);
 
         // "/Users/gkiran/Documents/git-gkiran292/mapper/target/mapper-1.0-SNAPSHOT-jar-with-dependencies.jar"
-        String mapperJarName = properties.getProperty("mapper.JarName");
-        LOGGER.debug("Mapper jar name: {}", mapperJarName);
+        String mapperComponent = properties.getProperty("mapper.Component");
+        LOGGER.debug("Mapper component name: {}", mapperComponent);
 
         // "/Users/gkiran/Documents/git-gkiran292/reducer/target/reducer-1.0-SNAPSHOT-jar-with-dependencies.jar"
-        String reducerJarName = properties.getProperty("reducer.JarName");
-        LOGGER.debug("Reducer jar name: {}", reducerJarName);
+        String reducerComponent = properties.getProperty("reducer.Component");
+        LOGGER.debug("Reducer component name: {}", reducerComponent);
 
         String inputFilePaths = properties.getProperty("master.FilePaths");
         LOGGER.debug("Input file paths for map reduce task: {}", inputFilePaths);
@@ -81,13 +79,17 @@ public class Application {
         String workingFolder = properties.getProperty("working.Folder");
         LOGGER.debug("Working folderPath: {}", workingFolder);
 
+        String nfsServerDetails = properties.getProperty("nfs.ServerDetails");
+        LOGGER.debug("NFS Server details: {}", nfsServerDetails);
+
         ManagedChannel kvStoreChannel = ManagedChannelBuilder.forAddress(kvStoreAddress, kvStorePort).usePlaintext().build();
         KeyValueStoreGrpc.KeyValueStoreBlockingStub kvStoreBlockingStub = KeyValueStoreGrpc.newBlockingStub(kvStoreChannel);
 
         HadoopManager hadoopManager = new HadoopManagerImpl();
 
-        LOGGER.info("Initiating cluster with master masterIpAddress: {}, masterPort: {}", masterIpAddress, masterPort);
-        Future<ProcessResult> future = hadoopManager.initiateCluster(masterJarName, workingFolder, masterIpAddress, masterPort);
+        LOGGER.info("Initiating cluster with master masterPort: {}", masterPort);
+        String masterIpAddress = hadoopManager.initiateCluster(masterComponent, nfsServerDetails, workingFolder, masterPort);
+        LOGGER.debug("Master masterIpAddress: {}", masterIpAddress);
 
         Keyvalue.Code initialKey =
                 kvStoreBlockingStub.set(Keyvalue.KeyValuePair.newBuilder().setKey(INITIAL_KEY).setValue(inputFilePaths).build());
@@ -103,7 +105,7 @@ public class Application {
         ManagedChannel masterChannel = ManagedChannelBuilder.forAddress(masterIpAddress, masterPort).usePlaintext().build();
         LOGGER.info("Running MapReduce task with master masterIpAddress: {}, masterPort: {}", masterIpAddress, masterPort);
         List<String> finalKeys = hadoopManager.runMapReduce(masterChannel, kvStoreAddress, kvStorePort, masterIpAddress,
-                masterPort, mappers, reducers, mapperJarName, reducerJarName, INITIAL_KEY);
+                masterPort, mappers, reducers, mapperComponent, reducerComponent, INITIAL_KEY);
         LOGGER.info("Running MapReduce task with master masterIpAddress: {}, masterPort: {}", masterIpAddress, masterPort);
 
         // Print values fetched from KV Store
@@ -118,14 +120,12 @@ public class Application {
         LOGGER.info("Persisted result of Map Reduce in file: {}", fileUri);
 
         LOGGER.info("Shutting down the cluster with masterIpAddress: {}, masterPort: {}", masterIpAddress, masterPort);
-        boolean isDestroyed = hadoopManager.destroyCluster(masterIpAddress, masterPort, masterChannel);
+        boolean isDestroyed = hadoopManager.destroyCluster(masterComponent, masterIpAddress, masterPort);
 
         if (isDestroyed) {
             LOGGER.info("Cluster is successfully destroyed with masterIpAddress: {}, masterPort: {}",
                     masterIpAddress, masterPort);
         }
-
-        future.get();
 
         LOGGER.info("MapReduce task is completed successfully");
     }
