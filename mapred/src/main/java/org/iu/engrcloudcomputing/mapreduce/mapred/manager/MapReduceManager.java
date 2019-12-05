@@ -158,7 +158,7 @@ public class MapReduceManager {
                             Thread.sleep(1000);
                         } catch (InterruptedException ignored) {}
                     }
-                }).get(Constants.OPERATION_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+                }).get(Constants.OPERATION_TIMEOUT_MILLIS*5, TimeUnit.MILLISECONDS);
                 break;
             } catch (TimeoutException ignored) {}
             finally {
