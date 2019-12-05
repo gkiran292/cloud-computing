@@ -2,7 +2,6 @@
 sudo apt-get -y update
 sudo apt-get -y install default-jdk
 sudo apt-get -y install maven
-sudo apt-get -y install nfs-common
 sudo apt-get -y install git
 
 port=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/port -H "Metadata-Flavor: Google")
