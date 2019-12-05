@@ -155,7 +155,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.iu.engrcloudcomputing.mapreduce.mapred.GcloudAuth</mainClass>
+                            <mainClass>org.iu.engrcloudcomputing.mapreduce.mapred.MasterClass</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
