@@ -1,6 +1,5 @@
 #! /bin/bash
 sh -su
-apt-get -y update
 apt-get -y install default-jdk
 apt-get -y install maven
 apt-get -y install nfs-common

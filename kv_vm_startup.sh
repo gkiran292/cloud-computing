@@ -4,6 +4,7 @@ apt-get -y update
 apt-get -y install default-jdk
 apt-get -y install maven
 apt-get -y install nfs-common
+apt-get -y install git
 
 nfs_server = $(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/nfs-server -H "Metadata-Flavor: Google")
 nfs_dir = $(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/nfs-dir -H "Metadata-Flavor: Google")
