@@ -98,8 +98,6 @@ public class MapReduceManager {
         cleanUpInstances();
 
         //mappers and reducers have finished their tasks
-        //TODO:send output to key value store and send the acknowledgement back to the main which presents the output to the user
-
         List<String> finalKeys = new ArrayList<>();
         for (Map.Entry<String, String> mapEntry : reducerConcurrentMap.entrySet()) {
             String keyString = mapEntry.getKey();
@@ -203,7 +201,7 @@ public class MapReduceManager {
             }
         }
 
-        LOGGER.info("All components finished their tasks : {}", String.join(",", taskMap.keySet()));
+        LOGGER.info("All component instances are started and waiting for the results, instances : {}", String.join(",", taskMap.keySet()));
     }
 
     private List<String> processKeysForReducers(ConcurrentMap<String, String> mapperConcurrentMap,

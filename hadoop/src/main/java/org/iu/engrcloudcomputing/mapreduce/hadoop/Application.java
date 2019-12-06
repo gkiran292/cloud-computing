@@ -101,13 +101,13 @@ public class Application {
         }
 
         LOGGER.info("Cluster initiated with master masterIpAddress: {}, masterPort: {}", masterIpAddress, masterPort);
+        //Waiting for master to complete initiation
+        Thread.sleep(60 * 1000);
 
-        Thread.sleep(1000);
         ManagedChannel masterChannel = ManagedChannelBuilder.forAddress(masterIpAddress, masterPort).usePlaintext().build();
         LOGGER.info("Running MapReduce task with master masterIpAddress: {}, masterPort: {}", masterIpAddress, masterPort);
         List<String> finalKeys = hadoopManager.runMapReduce(masterChannel, kvStoreAddress, kvStorePort, masterIpAddress,
                 masterPort, mappers, reducers, mapperComponent, reducerComponent, INITIAL_KEY);
-        LOGGER.info("Running MapReduce task with master masterIpAddress: {}, masterPort: {}", masterIpAddress, masterPort);
 
         // Print values fetched from KV Store
         List<String> finalOutput = new ArrayList<>();
