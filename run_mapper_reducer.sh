@@ -5,7 +5,7 @@ sudo apt-get -y install maven
 while getopts "c:k:m:u:" opt
 do
    case "$opt" in
-      p ) component="$OPTARG" ;;
+      c ) component="$OPTARG" ;;
       k ) kv_store="$OPTARG" ;;
       m ) master="$OPTARG" ;;
       u ) uuid="$OPTARG" ;;
