@@ -52,8 +52,8 @@ public class MapReduceManager {
     private static final String UUID_KEY = "uuid";
     private static final String SCRIPT_KEY = "script";
     private static final String script = "run_mapper_reducer.sh";
-    private static final String MAPPER_PREFIX = "M";
-    private static final String REDUCER_PREFIX = "R";
+    private static final String MAPPER_PREFIX = "m";
+    private static final String REDUCER_PREFIX = "r";
 
     public MapReduceManager(String kvStoreDetails, String masterDetails, int mappers, int reducers, String mapperComponentName,
                             String reducerComponentName, String initialKey, ConcurrentMap<String, String> mapperConcurrentMap,
@@ -173,7 +173,7 @@ public class MapReduceManager {
 
         int i = 0;
         for (String input : inputKeys) {
-            final String uuid = prefix + UUID.randomUUID().toString().replace("-", "") + (++i);
+            final String uuid = prefix + (++i);
             storeKeyValue(blockingStub, uuid, input);
             spawnTask(taskInfoConcurrentMap, uuid, input, componentName);
         }
