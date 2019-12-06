@@ -12,6 +12,8 @@ master=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attrib
 uuid=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/uuid -H "Metadata-Flavor: Google")
 script=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/script -H "Metadata-Flavor: Google")
 
+echo component-$component,kv_store-$kv_store,master-$master,uuid-$uuid,script-$script
+
 # excute the run_script in background
 sh /usr/app/cloud-computing/$script -c "$component" -k "$kv_store" -m "$master" -u "$uuid"
 #Return
