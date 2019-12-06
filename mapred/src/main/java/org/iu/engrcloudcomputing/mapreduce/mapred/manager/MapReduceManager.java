@@ -157,7 +157,6 @@ public class MapReduceManager {
                         } catch (InterruptedException ignored) {}
                     }
                 }).get(Constants.OPERATION_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
-                break;
             } catch (TimeoutException ignored) {}
             finally {
                 isRunning = taskInfoConcurrentMap.entrySet().stream().allMatch(entry -> entry.getValue().getIsTaskFinished());

@@ -32,11 +32,11 @@ public class ReducerAckService extends ReducerAckGrpc.ReducerAckImplBase {
         boolean status = HelperMethod.handleRequest(keyList, responseObserver, reducerKVConcurrentMap, taskInfoConcurrentMap);
 
         if (!status) {
-            LOGGER.warn("Rejected request for mapper id: {}", keyList.get(0).split("_")[0]);
+            LOGGER.warn("Rejected request for reducer id: {}", keyList.get(0).split("_")[0]);
             return;
         }
 
-        LOGGER.info("Acknowledged and results are stored from Mapper: {}", keyList.get(0).split("_")[0]);
+        LOGGER.info("Acknowledged and results are stored from Reducer: {}", keyList.get(0).split("_")[0]);
 
 //        if (!status) {
 //            responseObserver.onNext(Master.Message.newBuilder().setResponseCode(400).setResponseMessage("NOT INITIATED").build());

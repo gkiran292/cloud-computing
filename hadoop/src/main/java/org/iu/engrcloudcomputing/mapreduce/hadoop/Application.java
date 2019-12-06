@@ -101,8 +101,10 @@ public class Application {
         }
 
         LOGGER.info("Cluster initiated with master masterIpAddress: {}, masterPort: {}", masterIpAddress, masterPort);
+
+        LOGGER.info("Waiting for the master instance to finish up installing prerequisite packages, instance: {}", masterComponent);
         //Waiting for master to complete initiation
-        Thread.sleep(60 * 1000);
+        Thread.sleep(Constants.OPERATION_TIMEOUT_MILLIS);
 
         ManagedChannel masterChannel = ManagedChannelBuilder.forAddress(masterIpAddress, masterPort).usePlaintext().build();
         LOGGER.info("Running MapReduce task with master masterIpAddress: {}, masterPort: {}", masterIpAddress, masterPort);
@@ -129,6 +131,7 @@ public class Application {
         }
 
         LOGGER.info("MapReduce task is completed successfully");
+        System.exit(0);
     }
 
     private static String processFiles(String inputFileNames) throws ExecutionException, InterruptedException {
