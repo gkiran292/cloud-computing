@@ -26,6 +26,7 @@ public class HelperMethod {
         }
 
         if (!taskInfoConcurrentMap.get(uuid).getIsTaskFinished()) {
+            taskInfoConcurrentMap.get(uuid).setTaskFinished();
             storeKeys(kvMap, keyList);
         }
 
