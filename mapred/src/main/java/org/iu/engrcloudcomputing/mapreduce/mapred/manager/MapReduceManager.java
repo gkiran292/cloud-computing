@@ -115,13 +115,6 @@ public class MapReduceManager {
                 LOGGER.debug("Successfully stored for the key, key: {}, value: {}", s[1], finalKVPair.getValue());
             }
         }
-
-//        for (String str : finalKeys) {
-//            Keyvalue.KeyValuePair finalKVPair = blockingStub.get(Keyvalue.Key.newBuilder().setKey(str).build());
-//
-//            LOGGER.info(finalKVPair.getKey() + " ====> " + finalKVPair.getValue());
-//        }
-
         return finalKeys;
     }
 
