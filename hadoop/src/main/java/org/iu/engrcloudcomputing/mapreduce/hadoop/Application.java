@@ -92,7 +92,7 @@ public class Application {
         LOGGER.debug("Master masterIpAddress: {}", masterIpAddress);
 
         //Waiting for master and kvstore to complete initiation
-        Thread.sleep(60 * 1000);
+        Thread.sleep(Constants.OPERATION_TIMEOUT_MILLIS);
 
         ManagedChannel kvStoreChannel = ManagedChannelBuilder.forAddress(kvStoreIpAddress, kvStorePort).usePlaintext().build();
         KeyValueStoreGrpc.KeyValueStoreBlockingStub kvStoreBlockingStub = KeyValueStoreGrpc.newBlockingStub(kvStoreChannel);
