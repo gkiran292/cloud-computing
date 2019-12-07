@@ -86,7 +86,7 @@ public class Application {
         HadoopManager hadoopManager = new HadoopManagerImpl();
 
         LOGGER.info("Initiating cluster with master masterPort: {}", masterPort);
-        Map<String, String> vms = hadoopManager.initiateCluster(masterComponent, kvStoreComponent, masterPort, kvStorePort);
+        Map<String, String> vms = hadoopManager.initiateCluster(kvStoreComponent, masterComponent, masterPort, kvStorePort);
         String masterIpAddress = vms.get(masterComponent);
         String kvStoreIpAddress = vms.get(kvStoreComponent);
         LOGGER.debug("Master masterIpAddress: {}", masterIpAddress);
