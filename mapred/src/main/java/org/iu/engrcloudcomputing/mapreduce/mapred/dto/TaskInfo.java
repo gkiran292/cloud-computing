@@ -23,15 +23,11 @@ public class TaskInfo {
         return future;
     }
 
-    public void setFuture(Future<Integer> future) {
-        this.future = future;
-    }
-
     public boolean getIsTaskFinished() {
         return isTaskFinished.containsKey(true);
     }
 
-    public boolean setTaskFinished() {
-        return isTaskFinished.putIfAbsent(true, true) != null;
+    public void setTaskFinished() {
+        isTaskFinished.putIfAbsent(true, true);
     }
 }

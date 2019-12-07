@@ -174,9 +174,9 @@ public class MapReduceManager {
 
         boolean hasAllComponentsNotFinished = true;
         spawnTaskProcesses(taskMap, componentName);
-        Thread.sleep(10 * 1000);
+        Thread.sleep(Constants.OPERATION_TIMEOUT_MILLIS);
 
-        //wait for mappers to finish
+        //wait for instances to start
         while (hasAllComponentsNotFinished) {
             hasAllComponentsNotFinished = false;
 
