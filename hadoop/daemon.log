@@ -1,142 +1,174 @@
-Connected to the target VM, address: '127.0.0.1:60912', transport: 'socket'
+/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/bin/java "-javaagent:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=61632:/Applications/IntelliJ IDEA.app/Contents/bin" -Dfile.encoding=UTF-8 -classpath /Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/ext/cldrdata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/ext/jaccess.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/ext/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/ext/nashorn.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/jfxswt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/lib/dt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/lib/javafx-mx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/lib/packager.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home/lib/tools.jar:/Users/gkiran/Documents/git-gkiran292/cloud-computing/hadoop/target/classes:/Users/gkiran/.m2/repository/org/slf4j/slf4j-api/1.7.25/slf4j-api-1.7.25.jar:/Users/gkiran/.m2/repository/org/slf4j/slf4j-jdk14/1.7.25/slf4j-jdk14-1.7.25.jar:/Users/gkiran/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar:/Users/gkiran/.m2/repository/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar:/Users/gkiran/.m2/repository/com/google/protobuf/protobuf-java/3.6.1/protobuf-java-3.6.1.jar:/Users/gkiran/.m2/repository/io/grpc/grpc-netty-shaded/1.15.1/grpc-netty-shaded-1.15.1.jar:/Users/gkiran/.m2/repository/io/grpc/grpc-core/1.15.1/grpc-core-1.15.1.jar:/Users/gkiran/.m2/repository/io/grpc/grpc-context/1.15.1/grpc-context-1.15.1.jar:/Users/gkiran/.m2/repository/com/google/code/gson/gson/2.7/gson-2.7.jar:/Users/gkiran/.m2/repository/com/google/errorprone/error_prone_annotations/2.2.0/error_prone_annotations-2.2.0.jar:/Users/gkiran/.m2/repository/com/google/code/findbugs/jsr305/3.0.0/jsr305-3.0.0.jar:/Users/gkiran/.m2/repository/org/codehaus/mojo/animal-sniffer-annotations/1.17/animal-sniffer-annotations-1.17.jar:/Users/gkiran/.m2/repository/io/opencensus/opencensus-api/0.12.3/opencensus-api-0.12.3.jar:/Users/gkiran/.m2/repository/io/opencensus/opencensus-contrib-grpc-metrics/0.12.3/opencensus-contrib-grpc-metrics-0.12.3.jar:/Users/gkiran/.m2/repository/io/grpc/grpc-protobuf/1.15.1/grpc-protobuf-1.15.1.jar:/Users/gkiran/.m2/repository/com/google/guava/guava/20.0/guava-20.0.jar:/Users/gkiran/.m2/repository/com/google/api/grpc/proto-google-common-protos/1.0.0/proto-google-common-protos-1.0.0.jar:/Users/gkiran/.m2/repository/io/grpc/grpc-protobuf-lite/1.15.1/grpc-protobuf-lite-1.15.1.jar:/Users/gkiran/.m2/repository/io/grpc/grpc-stub/1.15.1/grpc-stub-1.15.1.jar:/Users/gkiran/.m2/repository/com/google/apis/google-api-services-compute/v1-rev214-1.25.0/google-api-services-compute-v1-rev214-1.25.0.jar:/Users/gkiran/.m2/repository/com/google/api-client/google-api-client/1.25.0/google-api-client-1.25.0.jar:/Users/gkiran/.m2/repository/com/google/oauth-client/google-oauth-client/1.25.0/google-oauth-client-1.25.0.jar:/Users/gkiran/.m2/repository/com/google/http-client/google-http-client-jackson2/1.25.0/google-http-client-jackson2-1.25.0.jar:/Users/gkiran/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.9.6/jackson-core-2.9.6.jar:/Users/gkiran/.m2/repository/com/google/cloud/google-cloud-storage/1.31.0/google-cloud-storage-1.31.0.jar:/Users/gkiran/.m2/repository/com/google/cloud/google-cloud-core/1.31.0/google-cloud-core-1.31.0.jar:/Users/gkiran/.m2/repository/joda-time/joda-time/2.9.2/joda-time-2.9.2.jar:/Users/gkiran/.m2/repository/com/google/http-client/google-http-client/1.23.0/google-http-client-1.23.0.jar:/Users/gkiran/.m2/repository/org/apache/httpcomponents/httpclient/4.0.1/httpclient-4.0.1.jar:/Users/gkiran/.m2/repository/org/apache/httpcomponents/httpcore/4.0.1/httpcore-4.0.1.jar:/Users/gkiran/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar:/Users/gkiran/.m2/repository/commons-codec/commons-codec/1.3/commons-codec-1.3.jar:/Users/gkiran/.m2/repository/com/google/api/api-common/1.5.0/api-common-1.5.0.jar:/Users/gkiran/.m2/repository/com/google/api/gax/1.25.0/gax-1.25.0.jar:/Users/gkiran/.m2/repository/org/threeten/threetenbp/1.3.3/threetenbp-1.3.3.jar:/Users/gkiran/.m2/repository/com/google/protobuf/protobuf-java-util/3.5.1/protobuf-java-util-3.5.1.jar:/Users/gkiran/.m2/repository/com/google/api/grpc/proto-google-iam-v1/0.12.0/proto-google-iam-v1-0.12.0.jar:/Users/gkiran/.m2/repository/com/google/cloud/google-cloud-core-http/1.31.0/google-cloud-core-http-1.31.0.jar:/Users/gkiran/.m2/repository/com/google/auth/google-auth-library-credentials/0.9.1/google-auth-library-credentials-0.9.1.jar:/Users/gkiran/.m2/repository/com/google/auth/google-auth-library-oauth2-http/0.9.1/google-auth-library-oauth2-http-0.9.1.jar:/Users/gkiran/.m2/repository/com/google/http-client/google-http-client-appengine/1.23.0/google-http-client-appengine-1.23.0.jar:/Users/gkiran/.m2/repository/com/google/http-client/google-http-client-jackson/1.23.0/google-http-client-jackson-1.23.0.jar:/Users/gkiran/.m2/repository/org/codehaus/jackson/jackson-core-asl/1.9.11/jackson-core-asl-1.9.11.jar:/Users/gkiran/.m2/repository/com/google/api/gax-httpjson/0.42.0/gax-httpjson-0.42.0.jar:/Users/gkiran/.m2/repository/io/opencensus/opencensus-contrib-http-util/0.11.1/opencensus-contrib-http-util-0.11.1.jar:/Users/gkiran/.m2/repository/com/google/apis/google-api-services-storage/v1-rev131-1.23.0/google-api-services-storage-v1-rev131-1.23.0.jar:/Users/gkiran/.m2/repository/org/apache/commons/commons-lang3/3.9/commons-lang3-3.9.jar org.iu.engrcloudcomputing.mapreduce.hadoop.Application application.properties
 SLF4J: Class path contains multiple SLF4J bindings.
 SLF4J: Found binding in [jar:file:/Users/gkiran/.m2/repository/org/slf4j/slf4j-jdk14/1.7.25/slf4j-jdk14-1.7.25.jar!/org/slf4j/impl/StaticLoggerBinder.class]
 SLF4J: Found binding in [jar:file:/Users/gkiran/.m2/repository/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
 SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
 SLF4J: Actual binding is of type [org.slf4j.impl.JDK14LoggerFactory]
-Dec 06, 2019 8:22:13 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+Dec 06, 2019 9:53:20 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+INFO: Start time: 169279363212108
+Dec 06, 2019 9:53:20 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
 INFO: Initiating cluster with master masterPort: 9001
-Dec 06, 2019 8:22:14 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps deleteInstance
+Dec 06, 2019 9:53:21 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps deleteInstance
 INFO: ================== Deleting Instance keyvaluestore ==================
 Waiting for operation completion...
-Dec 06, 2019 8:22:20 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:53:27 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:22:26 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:53:32 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:22:31 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:53:38 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:22:37 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:53:43 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:22:42 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:53:49 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:22:48 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:53:54 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:22:53 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:54:00 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:22:59 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:54:06 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:23:04 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:54:11 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:23:10 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:54:17 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:23:15 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:54:22 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:23:21 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:54:27 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:23:21 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps waitForOperationCompletion
+Dec 06, 2019 9:54:33 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 9:54:39 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 9:54:39 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps waitForOperationCompletion
 INFO: Success!
-Dec 06, 2019 8:23:21 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps startInstance
+Dec 06, 2019 9:54:39 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps startInstance
 INFO: ================== Starting New Instance ==================
-Dec 06, 2019 8:23:21 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps startInstance
+Dec 06, 2019 9:54:39 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps startInstance
 INFO: {canIpForward=false, deletionProtection=false, disks=[{autoDelete=true, boot=true, deviceName=keyvaluestore, initializeParams={diskSizeGb=10, diskType=projects/gopikiran-talangalashama/zones/us-east1-b/diskTypes/pd-standard, sourceImage=projects/debian-cloud/global/images/debian-9-stretch-v20191121}, kind=compute#attachedDisk, mode=READ_WRITE, type=PERSISTENT}], kind=compute#instance, machineType=projects/gopikiran-talangalashama/zones/us-east1-b/machineTypes/n1-standard-1, metadata={items=[{key=startup-script-url, value=gs://gopikiran-talangalashama/kv_vm_startup.sh}, {key=component, value=keyvaluestore}, {key=port, value=9000}]}, name=keyvaluestore, networkInterfaces=[{accessConfigs=[{kind=compute#accessConfig, name=External NAT, networkTier=PREMIUM, type=ONE_TO_ONE_NAT}], kind=compute#networkInterface, subnetwork=projects/gopikiran-talangalashama/regions/us-east1/subnetworks/default}], scheduling={automaticRestart=true, onHostMaintenance=MIGRATE, preemptible=false}, serviceAccounts=[{email=my-account@gopikiran-talangalashama.iam.gserviceaccount.com, scopes=[https://www.googleapis.com/auth/cloud-platform]}], zone=projects/gopikiran-talangalashama/zones/us-east1-b}
 Waiting for operation completion...
-Dec 06, 2019 8:23:28 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:54:46 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 8:23:28 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps waitForOperationCompletion
+Dec 06, 2019 9:54:46 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps waitForOperationCompletion
 INFO: Success!
-Dec 06, 2019 8:23:29 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps startInstance
-INFO: ================== Starting New Instance ==================
-Dec 06, 2019 8:23:29 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps startInstance
-INFO: {canIpForward=false, deletionProtection=false, disks=[{autoDelete=true, boot=true, deviceName=mapred, initializeParams={diskSizeGb=10, diskType=projects/gopikiran-talangalashama/zones/us-east1-b/diskTypes/pd-standard, sourceImage=projects/debian-cloud/global/images/debian-9-stretch-v20191121}, kind=compute#attachedDisk, mode=READ_WRITE, type=PERSISTENT}], kind=compute#instance, machineType=projects/gopikiran-talangalashama/zones/us-east1-b/machineTypes/n1-standard-1, metadata={items=[{key=startup-script-url, value=gs://gopikiran-talangalashama/vm_startup.sh}, {key=kv-store, value=1:1}, {key=master, value=1:9001}, {key=uuid, value=mapred}, {key=component, value=mapred}, {key=script, value=run_master.sh}]}, name=mapred, networkInterfaces=[{accessConfigs=[{kind=compute#accessConfig, name=External NAT, networkTier=PREMIUM, type=ONE_TO_ONE_NAT}], kind=compute#networkInterface, subnetwork=projects/gopikiran-talangalashama/regions/us-east1/subnetworks/default}], scheduling={automaticRestart=true, onHostMaintenance=MIGRATE, preemptible=false}, serviceAccounts=[{email=my-account@gopikiran-talangalashama.iam.gserviceaccount.com, scopes=[https://www.googleapis.com/auth/cloud-platform]}], zone=projects/gopikiran-talangalashama/zones/us-east1-b}
-Waiting for operation completion...
-Dec 06, 2019 8:23:36 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 8:23:36 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps waitForOperationCompletion
-INFO: Success!
-Dec 06, 2019 8:37:18 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
-INFO: Cluster initiated with master masterIpAddress: 34.74.219.106, masterPort: 9001
-Dec 06, 2019 8:37:18 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
-INFO: Waiting for the master instance to finish up installing prerequisite packages, instance: mapred
-Dec 06, 2019 8:37:18 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
-INFO: Running MapReduce task with master masterIpAddress: 34.74.219.106, masterPort: 9001
-Dec 06, 2019 8:48:09 PM org.iu.engrcloudcomputing.mapreduce.hadoop.manager.impl.HadoopManagerImpl runMapReduce
-INFO: Map Reduce Task was successful 
-Dec 06, 2019 9:19:21 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
-INFO: Persisted result of Map Reduce in file: cloud-ii-output.txt
-Dec 06, 2019 9:19:21 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
-INFO: Shutting down the cluster with masterIpAddress: 34.74.219.106, masterPort: 9001
-Dec 06, 2019 9:19:21 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
-INFO: Shutting down the cluster with masterIpAddress: 34.73.145.215, masterPort: 9000
-Dec 06, 2019 9:19:21 PM org.iu.engrcloudcomputing.mapreduce.hadoop.manager.impl.HadoopManagerImpl destroyCluster
-INFO: Shutting down the instances, master: keyvaluestore, kvstore: mapred
-Dec 06, 2019 9:19:21 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps deleteInstance
-INFO: ================== Deleting Instance keyvaluestore ==================
-Waiting for operation completion...
-Dec 06, 2019 9:19:27 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:19:33 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:19:39 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:19:44 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:19:50 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:19:56 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:20:01 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:20:07 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:20:12 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:20:18 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:20:23 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:20:23 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps waitForOperationCompletion
-INFO: Success!
-Dec 06, 2019 9:20:24 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps deleteInstance
+Dec 06, 2019 9:54:47 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps deleteInstance
 INFO: ================== Deleting Instance mapred ==================
 Waiting for operation completion...
-Dec 06, 2019 9:20:30 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:54:53 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 9:20:35 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:55:00 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 9:20:42 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:55:05 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 9:20:48 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:55:11 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 9:20:54 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:55:16 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 9:21:00 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:55:21 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 9:21:05 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:55:27 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 9:21:11 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:55:32 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 9:21:16 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:55:38 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 9:21:23 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:55:43 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 9:21:28 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+Dec 06, 2019 9:55:48 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
 INFO: waiting...
-Dec 06, 2019 9:21:33 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:21:39 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:21:44 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:21:50 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
-INFO: waiting...
-Dec 06, 2019 9:21:50 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps waitForOperationCompletion
+Dec 06, 2019 9:55:49 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps waitForOperationCompletion
 INFO: Success!
-Dec 06, 2019 9:21:50 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
-INFO: Cluster is successfully destroyed with masterIpAddress: 34.74.219.106, masterPort: 9001
-Dec 06, 2019 9:21:50 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+Dec 06, 2019 9:55:49 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps startInstance
+INFO: ================== Starting New Instance ==================
+Dec 06, 2019 9:55:49 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps startInstance
+INFO: {canIpForward=false, deletionProtection=false, disks=[{autoDelete=true, boot=true, deviceName=mapred, initializeParams={diskSizeGb=10, diskType=projects/gopikiran-talangalashama/zones/us-east1-b/diskTypes/pd-standard, sourceImage=projects/debian-cloud/global/images/debian-9-stretch-v20191121}, kind=compute#attachedDisk, mode=READ_WRITE, type=PERSISTENT}], kind=compute#instance, machineType=projects/gopikiran-talangalashama/zones/us-east1-b/machineTypes/n1-standard-1, metadata={items=[{key=startup-script-url, value=gs://gopikiran-talangalashama/vm_startup.sh}, {key=kv-store, value=1:1}, {key=master, value=1:9001}, {key=uuid, value=mapred}, {key=component, value=mapred}, {key=script, value=run_master.sh}]}, name=mapred, networkInterfaces=[{accessConfigs=[{kind=compute#accessConfig, name=External NAT, networkTier=PREMIUM, type=ONE_TO_ONE_NAT}], kind=compute#networkInterface, subnetwork=projects/gopikiran-talangalashama/regions/us-east1/subnetworks/default}], scheduling={automaticRestart=true, onHostMaintenance=MIGRATE, preemptible=false}, serviceAccounts=[{email=my-account@gopikiran-talangalashama.iam.gserviceaccount.com, scopes=[https://www.googleapis.com/auth/cloud-platform]}], zone=projects/gopikiran-talangalashama/zones/us-east1-b}
+Waiting for operation completion...
+Dec 06, 2019 9:55:55 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 9:56:01 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 9:56:02 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps waitForOperationCompletion
+INFO: Success!
+Dec 06, 2019 9:58:06 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+INFO: Cluster initiated with master masterIpAddress: 35.237.103.57, masterPort: 9001
+Dec 06, 2019 9:58:06 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+INFO: Waiting for the master instance to finish up installing prerequisite packages, instance: mapred
+Dec 06, 2019 9:58:06 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+INFO: Running MapReduce task with master masterIpAddress: 35.237.103.57, masterPort: 9001
+Dec 06, 2019 10:09:03 PM org.iu.engrcloudcomputing.mapreduce.hadoop.manager.impl.HadoopManagerImpl runMapReduce
+INFO: Map Reduce Task was successful 
+Dec 06, 2019 10:09:05 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+INFO: Persisted result of Map Reduce in file: cloud-ii-output.txt
+Dec 06, 2019 10:09:05 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+INFO: Shutting down the cluster with masterIpAddress: 35.237.103.57, masterPort: 9001
+Dec 06, 2019 10:09:05 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+INFO: Shutting down the cluster with masterIpAddress: 104.196.188.64, masterPort: 9000
+Dec 06, 2019 10:09:05 PM org.iu.engrcloudcomputing.mapreduce.hadoop.manager.impl.HadoopManagerImpl destroyCluster
+INFO: Shutting down the instances, master: keyvaluestore, kvstore: mapred
+Dec 06, 2019 10:09:06 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps deleteInstance
+INFO: ================== Deleting Instance keyvaluestore ==================
+Waiting for operation completion...
+Dec 06, 2019 10:09:12 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:09:17 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:09:24 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:09:29 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:09:34 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:09:40 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:09:45 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:09:50 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:09:56 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:10:01 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:10:07 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:10:12 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:10:18 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:10:18 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps waitForOperationCompletion
+INFO: Success!
+Dec 06, 2019 10:10:19 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps deleteInstance
+INFO: ================== Deleting Instance mapred ==================
+Waiting for operation completion...
+Dec 06, 2019 10:10:25 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:10:30 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:10:35 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:10:41 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:10:46 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:10:52 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:10:57 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:11:03 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:11:08 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:11:13 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps blockUntilComplete
+INFO: waiting...
+Dec 06, 2019 10:11:14 PM org.iu.engrcloudcomputing.mapreduce.hadoop.helper.GoogleComputeOps waitForOperationCompletion
+INFO: Success!
+Dec 06, 2019 10:11:14 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+INFO: Cluster is successfully destroyed with masterIpAddress: 35.237.103.57, masterPort: 9001
+Dec 06, 2019 10:11:14 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
 INFO: MapReduce task is completed successfully
-Dec 06, 2019 9:21:50 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+Dec 06, 2019 10:11:14 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
 INFO: Output file stored successfully in the location: file:///Users/gkiran/Documents/git-gkiran292/cloud-computing/hadoop/cloud-ii-output.txt
-Disconnected from the target VM, address: '127.0.0.1:60912', transport: 'socket'
+Dec 06, 2019 10:11:14 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+INFO: Start time: 170353044998559
+Dec 06, 2019 10:11:14 PM org.iu.engrcloudcomputing.mapreduce.hadoop.Application main
+INFO: Total time taken: 17
 
 Process finished with exit code 0
