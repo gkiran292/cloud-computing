@@ -23,10 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class Application {
 
@@ -35,7 +32,10 @@ public class Application {
 
     private static final String INITIAL_KEY = "master";
 
-    public static void main(String[] args) throws IOException, InterruptedException, URISyntaxException, GeneralSecurityException, ExecutionException {
+    public static void main(String[] args) throws IOException, InterruptedException, GeneralSecurityException, ExecutionException {
+
+        long beginTime = System.nanoTime();
+        LOGGER.info("Start time: {}",  beginTime);
 
         String propFilePath;
         try {
@@ -137,6 +137,13 @@ public class Application {
 
         LOGGER.info("MapReduce task is completed successfully");
         LOGGER.info("Output file stored successfully in the location: {}", "file://" + System.getProperty("user.dir") + "/" + outputFileName);
+
+        long endTime = System.nanoTime();
+        LOGGER.info("Start time: {}",  endTime);
+
+        long totalTimeInNanoSeconds = endTime - beginTime;
+        LOGGER.info("Total time taken: {}", TimeUnit.MINUTES.convert(totalTimeInNanoSeconds, TimeUnit.NANOSECONDS));
+
         System.exit(0);
     }
 
