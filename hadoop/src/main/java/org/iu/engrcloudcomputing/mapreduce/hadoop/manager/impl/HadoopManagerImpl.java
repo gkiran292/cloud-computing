@@ -16,14 +16,18 @@ import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HadoopManagerImpl implements HadoopManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 
     private static final String STARTUP_SCRIPT_URL_KEY = "startup-script-url";
-    private static final String STARTUP_SCRIPT_URL_VALUE = "gs://" + Constants.PROJECT_ID + "/vm_startup.sh";
+    private static final String STARTUP_SCRIPT_URL_VALUE_MASTER = "gs://" + Constants.PROJECT_ID + "/vm_startup.sh";
+    private static final String STARTUP_SCRIPT_URL_VALUE_KVSTORE = "gs://" + Constants.PROJECT_ID + "/kv_vm_startup.sh";
+    private static final String PORT_KEY = "port";
     private static final String COMPONENT_NAME_KEY = "component";
     private static final String KV_STORE_KEY = "kv-store";
     private static final String MASTER_DETAILS_KEY = "master";
@@ -32,17 +36,29 @@ public class HadoopManagerImpl implements HadoopManager {
     private static final String script = "run_master.sh";
 
     @Override
-    public String initiateCluster(String componentName, int port) throws IOException, GeneralSecurityException {
+    public Map<String, String> initiateCluster(String kvStoreComponentName, String masterComponentName,
+                                               int masterPort, int kvStorePort) throws IOException, GeneralSecurityException {
 
+        Map<String, String> map = new HashMap<>();
         int status = -1;
-        GoogleComputeOps gc = new GoogleComputeOps(componentName);
+        GoogleComputeOps gc = new GoogleComputeOps(kvStoreComponentName);
 
         while (status != 0) {
-            status = gc.startInstance(getMetaData(componentName, componentName, port),
-                    false);
+            status = gc.startInstance(getMetaDataForKVStore(kvStoreComponentName, kvStorePort), false);
         }
 
-        return gc.getIpAddressOfInstance();
+        map.put(kvStoreComponentName, gc.getIpAddressOfInstance());
+
+        status = -1;
+        gc = new GoogleComputeOps(masterComponentName);
+
+        while (status != 0) {
+            status = gc.startInstance(getMetaDataForMaster(masterComponentName, masterPort), false);
+        }
+
+        map.put(masterComponentName, gc.getIpAddressOfInstance());
+
+        return map;
     }
 
     @Override
@@ -77,12 +93,19 @@ public class HadoopManagerImpl implements HadoopManager {
     }
 
     @Override
-    public boolean destroyCluster(String componentName, String ipAddress, int port) {
+    public boolean destroyCluster(String kvStoreComponentName, String masterComponentName) {
 
-        LOGGER.info("Shutting down the master running on the ipAddress: {}, port: {}", ipAddress, port);
+        LOGGER.info("Shutting down the instances, master: {}, kvstore: {}", masterComponentName, kvStoreComponentName);
 
         int status = -1;
-        GoogleComputeOps gc = new GoogleComputeOps(componentName);
+        GoogleComputeOps gc = new GoogleComputeOps(masterComponentName);
+
+        while (status != 0) {
+            status = gc.deleteInstance();
+        }
+
+        status = -1;
+        gc = new GoogleComputeOps(kvStoreComponentName);
 
         while (status != 0) {
             status = gc.deleteInstance();
@@ -91,14 +114,25 @@ public class HadoopManagerImpl implements HadoopManager {
         return true;
     }
 
-    private Metadata getMetaData(String uuid, String componentName, int port) {
+    private Metadata getMetaDataForKVStore(String componentName, int port) {
 
         Metadata metadata = new Metadata();
         List<Metadata.Items> itemsList = new ArrayList<>();
-        itemsList.add(getItem(STARTUP_SCRIPT_URL_KEY, STARTUP_SCRIPT_URL_VALUE));
+        itemsList.add(getItem(STARTUP_SCRIPT_URL_KEY, STARTUP_SCRIPT_URL_VALUE_MASTER));
+        itemsList.add(getItem(COMPONENT_NAME_KEY, componentName));
+        itemsList.add(getItem(PORT_KEY, String.valueOf(port)));
+        metadata.setItems(itemsList);
+        return metadata;
+    }
+
+    private Metadata getMetaDataForMaster(String componentName, int port) {
+
+        Metadata metadata = new Metadata();
+        List<Metadata.Items> itemsList = new ArrayList<>();
+        itemsList.add(getItem(STARTUP_SCRIPT_URL_KEY, STARTUP_SCRIPT_URL_VALUE_KVSTORE));
         itemsList.add(getItem(KV_STORE_KEY, "1:1"));
         itemsList.add(getItem(MASTER_DETAILS_KEY, "1:" + port));
-        itemsList.add(getItem(UUID_KEY, uuid));
+        itemsList.add(getItem(UUID_KEY, componentName));
         itemsList.add(getItem(COMPONENT_NAME_KEY, componentName));
         itemsList.add(getItem(SCRIPT_KEY, script));
         metadata.setItems(itemsList);

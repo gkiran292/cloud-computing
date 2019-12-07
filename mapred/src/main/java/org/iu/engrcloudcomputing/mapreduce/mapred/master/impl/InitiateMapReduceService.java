@@ -70,7 +70,7 @@ public class InitiateMapReduceService extends BeginMapReduceGrpc.BeginMapReduceI
                     .setMessage(Master.Message.newBuilder().setResponseCode(200).setResponseMessage("OK").build())
                     .setKeys(Master.Keys.newBuilder().addAllKey(finalKeys).build())
                     .build());
-        } catch (IOException | ExecutionException | InterruptedException | URISyntaxException e) {
+        } catch (IOException | ExecutionException | InterruptedException e) {
             LOGGER.error("Exception in map reduce task");
             LOGGER.error(e.getMessage());
             responseObserver.onNext(Master.MapReduceResponse.newBuilder()

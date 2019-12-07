@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -53,8 +54,8 @@ public class Application {
         int kvStorePort = Integer.parseInt(properties.getProperty("kvstore.Port"));
         LOGGER.debug("Key-Value Store port: {}", kvStorePort);
 
-        String kvStoreAddress = properties.getProperty("kvstore.IpAddress");
-        LOGGER.debug("Key-Value Store ipAddress: {}", kvStoreAddress);
+        String kvStoreComponent = properties.getProperty("kvstore.Component");
+        LOGGER.debug("Key-Value Component name: {}", kvStoreComponent);
 
         int masterPort = Integer.parseInt(properties.getProperty("master.Port"));
         LOGGER.debug("Master masterPort: {}", masterPort);
@@ -79,39 +80,42 @@ public class Application {
         String inputFileNames = properties.getProperty("master.Files");
         LOGGER.debug("Input file paths for map reduce task: {}", inputFileNames);
 
-        String fileUri = properties.getProperty("output.FileUri");
-        LOGGER.debug("Final Output file URI: {}", fileUri);
-
-        ManagedChannel kvStoreChannel = ManagedChannelBuilder.forAddress(kvStoreAddress, kvStorePort).usePlaintext().build();
-        KeyValueStoreGrpc.KeyValueStoreBlockingStub kvStoreBlockingStub = KeyValueStoreGrpc.newBlockingStub(kvStoreChannel);
+        String outputFileName = properties.getProperty("output.File");
+        LOGGER.debug("Final Output file: {}", outputFileName);
 
         HadoopManager hadoopManager = new HadoopManagerImpl();
 
         LOGGER.info("Initiating cluster with master masterPort: {}", masterPort);
-        String masterIpAddress = hadoopManager.initiateCluster(masterComponent, masterPort);
+        Map<String, String> vms = hadoopManager.initiateCluster(masterComponent, kvStoreComponent, masterPort, kvStorePort);
+        String masterIpAddress = vms.get(masterComponent);
+        String kvStoreIpAddress = vms.get(kvStoreComponent);
         LOGGER.debug("Master masterIpAddress: {}", masterIpAddress);
+
+        //Waiting for master and kvstore to complete initiation
+        Thread.sleep(Constants.OPERATION_TIMEOUT_MILLIS);
+
+        ManagedChannel kvStoreChannel = ManagedChannelBuilder.forAddress(kvStoreIpAddress, kvStorePort).usePlaintext().build();
+        KeyValueStoreGrpc.KeyValueStoreBlockingStub kvStoreBlockingStub = KeyValueStoreGrpc.newBlockingStub(kvStoreChannel);
 
         String files = processFiles(inputFileNames);
         Keyvalue.Code initialKey =
                 kvStoreBlockingStub.set(Keyvalue.KeyValuePair.newBuilder().setKey(INITIAL_KEY).setValue(files).build());
 
         if (initialKey.getResponseCode() != 200) {
-            LOGGER.error("Couldn't store the initial Key in KV Store with ipAddress: {}, port: {}", kvStoreAddress, kvStorePort);
+            LOGGER.error("Couldn't store the initial Key in KV Store with ipAddress: {}, port: {}", kvStoreIpAddress, kvStorePort);
             throw new KVStoreStorageException("Couldn't store the initial key in KV Store");
         }
 
         LOGGER.info("Cluster initiated with master masterIpAddress: {}, masterPort: {}", masterIpAddress, masterPort);
 
         LOGGER.info("Waiting for the master instance to finish up installing prerequisite packages, instance: {}", masterComponent);
-        //Waiting for master to complete initiation
-        Thread.sleep(Constants.OPERATION_TIMEOUT_MILLIS);
 
         ManagedChannel masterChannel = ManagedChannelBuilder.forAddress(masterIpAddress, masterPort).usePlaintext().build();
         LOGGER.info("Running MapReduce task with master masterIpAddress: {}, masterPort: {}", masterIpAddress, masterPort);
-        List<String> finalKeys = hadoopManager.runMapReduce(masterChannel, kvStoreAddress, kvStorePort, masterIpAddress,
+        List<String> finalKeys = hadoopManager.runMapReduce(masterChannel, kvStoreIpAddress, kvStorePort, masterIpAddress,
                 masterPort, mappers, reducers, mapperComponent, reducerComponent, INITIAL_KEY);
 
-        // Print values fetched from KV Store
+        // Store the values fetched from KV Store
         List<String> finalOutput = new ArrayList<>();
         for (String key : finalKeys) {
 
@@ -119,11 +123,12 @@ public class Application {
             finalOutput.add(keyValuePair.getKey() + " ==> " + keyValuePair.getValue());
         }
 
-        persistInFile(finalOutput, fileUri);
-        LOGGER.info("Persisted result of Map Reduce in file: {}", fileUri);
+        persistInFile(finalOutput, outputFileName);
+        LOGGER.info("Persisted result of Map Reduce in file: {}", outputFileName);
 
         LOGGER.info("Shutting down the cluster with masterIpAddress: {}, masterPort: {}", masterIpAddress, masterPort);
-        boolean isDestroyed = hadoopManager.destroyCluster(masterComponent, masterIpAddress, masterPort);
+        LOGGER.info("Shutting down the cluster with masterIpAddress: {}, masterPort: {}", kvStoreIpAddress, kvStorePort);
+        boolean isDestroyed = hadoopManager.destroyCluster(masterComponent, kvStoreComponent);
 
         if (isDestroyed) {
             LOGGER.info("Cluster is successfully destroyed with masterIpAddress: {}, masterPort: {}",
@@ -131,6 +136,7 @@ public class Application {
         }
 
         LOGGER.info("MapReduce task is completed successfully");
+        LOGGER.info("Output file stored successfully in the location: {}", "file://" + System.getProperty("user.dir") + "/" + outputFileName);
         System.exit(0);
     }
 
@@ -178,9 +184,9 @@ public class Application {
         return name;
     }
 
-    private static void persistInFile(List<String> input, String filePath) throws IOException, URISyntaxException {
+    private static void persistInFile(List<String> input, String filePath) throws IOException {
 
-        File file = new File(new URI(filePath));
+        File file = new File(filePath);
         if (!file.exists()) {
             if (!file.createNewFile()) {
                 LOGGER.error("Couldn't create a new file {}", filePath);

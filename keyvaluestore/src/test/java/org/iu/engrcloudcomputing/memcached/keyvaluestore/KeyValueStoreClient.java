@@ -14,20 +14,23 @@ import java.nio.file.Paths;
 
 public class KeyValueStoreClient {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
-        String bucketName = "gopikiran-talangalashama";
+        String property = System.getProperty("user.dir");
+        System.out.println(property);
 
-        String srcFilename = "1001-0.txt";
-
-        Path destFilePath = Paths.get("1001-0.txt");
-        // Instantiate a Google Cloud Storage client
-        Storage storage = StorageOptions.getDefaultInstance().getService();
-
-// Get specific file from specified bucket
-        Blob blob = storage.get(BlobId.of(bucketName, srcFilename));
-
-        System.out.println(blob.exists());
+//        String bucketName = "gopikiran-talangalashama";
+//
+//        String srcFilename = "1001-0.txt";
+//
+//        Path destFilePath = Paths.get("1001-0.txt");
+//        // Instantiate a Google Cloud Storage client
+//        Storage storage = StorageOptions.getDefaultInstance().getService();
+//
+//// Get specific file from specified bucket
+//        Blob blob = storage.get(BlobId.of(bucketName, srcFilename));
+//
+//        System.out.println(blob.exists());
 //
 // Download file to specified path
 //        blob.downloadTo(destFilePath);

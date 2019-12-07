@@ -70,7 +70,7 @@ public class MapReduceManager {
         this.taskInfoConcurrentMap = taskInfoConcurrentMap;
     }
 
-    public List<String> mapReduce() throws IOException, ExecutionException, InterruptedException, URISyntaxException {
+    public List<String> mapReduce() throws IOException, ExecutionException, InterruptedException {
 
         KeyValueStoreGrpc.KeyValueStoreBlockingStub blockingStub = createConnection();
 

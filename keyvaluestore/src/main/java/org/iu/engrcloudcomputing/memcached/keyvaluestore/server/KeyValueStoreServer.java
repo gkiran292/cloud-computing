@@ -23,17 +23,11 @@ public class KeyValueStoreServer {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        String filePath = null;
+        String filePath = "kvstore.txt";
         int port = 0;
 
         //Get Command line values
         CommandOptions cmd = new CommandOptions(args);
-
-        //KV store information
-        if (cmd.hasOption("-d")) {
-            filePath = cmd.valueOf("-d");
-            LOGGER.info("FilePath: {}", filePath);
-        }
 
         //nfs Server ip and volume of the format <ip-address>:/<Volume> store information
         if (cmd.hasOption("-p")) {
